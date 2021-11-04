@@ -5,7 +5,8 @@
   "main": "main.ts",
   "scripts": {
     "start:prod": "node main.js",
-    "start:dev": "nodemon --watch \"./**\" --ext \"ts,json\" --ignore \"./**/*.spec.ts\" --exec \"npx ts-node main.ts\""
+    "start:dev": "nodemon --watch \"./**\" --ext \"ts,json\" --ignore \"./**/*.spec.ts\" --exec \"npx ts-node main.ts\"",
+    "build": "tsc"
   },
   "keywords": [
     "zloi",
