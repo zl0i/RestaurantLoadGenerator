@@ -12,7 +12,9 @@ const state: State = {}
 
 async function flow() {
     state.token = await auth()
+    console.log(state)
     state.menu = await requestMenu()
+    console.log(state)
     const content = generateOrderContent(state.menu as any[])
     const order = await makeOrder(content, state.token as string)
     console.log(order)
@@ -21,8 +23,8 @@ async function flow() {
 
 async function auth() {
     await axios.post(`${SERVER_URL}/auth/phone`, { phone: '+79999999999' })
-    const res2 = await axios.post(`${SERVER_URL}/auth/code`, { phone: '+79999999999', code: '9674' })
-    return res2.data.token
+    const res = await axios.post(`${SERVER_URL}/auth/code`, { phone: '+79999999999', code: '9674' })
+    return res.data.token
 }
 
 async function requestMenu() {
