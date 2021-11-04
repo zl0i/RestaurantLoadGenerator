@@ -12,10 +12,9 @@ const state: State = {}
 
 async function flow() {
     state.token = await auth()
-    console.log(state)
     state.menu = await requestMenu()
-    console.log(state)
     const content = generateOrderContent(state.menu as any[])
+    console.log(content)
     const order = await makeOrder(content, state.token as string)
     console.log(order)
 }
