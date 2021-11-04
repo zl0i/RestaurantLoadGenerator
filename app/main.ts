@@ -67,3 +67,8 @@ flow()
     .catch(err => {
         console.log(err.message)
     })
+
+
+setTimeout(() => {
+    console.log('It\'s work!')
+}, 1 * 60 * 60 * 1000)
