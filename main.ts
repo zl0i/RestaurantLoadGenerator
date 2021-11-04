@@ -13,21 +13,16 @@ const state: State = {}
 async function flow() {
     state.token = await auth()
     state.menu = await requestMenu()
-    generateOrderContent(state.menu as any[])
-
-
-    //console.log(state)
+    const content = generateOrderContent(state.menu as any[])
+    const order = await makeOrder(content, state.token as string)
+    console.log(order)
 }
 
 
 async function auth() {
-    try {
-        await axios.post(`${SERVER_URL}/auth/phone`, { phone: '+79999999999' })
-        const res2 = await axios.post(`${SERVER_URL}/auth/code`, { phone: '+79999999999', code: '9674' })
-        return res2.data.token
-    } catch (error) {
-        console.log(error)
-    }
+    await axios.post(`${SERVER_URL}/auth/phone`, { phone: '+79999999999' })
+    const res2 = await axios.post(`${SERVER_URL}/auth/code`, { phone: '+79999999999', code: '9674' })
+    return res2.data.token
 }
 
 async function requestMenu() {
@@ -40,8 +35,29 @@ async function requestMenu() {
 }
 
 function generateOrderContent(menu: any[]) {
-    const count = Math.round((Math.random() * 1000) % 10)
-    console.log(count)
+    const count = Math.ceil(Math.random() * 10)
+    const content = new Array()
+    for (let i = 0; i < count; i++) {
+        content.push({
+            id: menu[Math.floor((Math.random() * 10) % menu.length)]['id'],
+            count: Math.round(Math.random() * 10)
+        })
+    }
+    return content
+}
+
+async function makeOrder(content: any[], token: string) {
+    const order = {
+        menu: content,
+        comment: '',
+        test: true
+    }
+    const res = await axios.post(`${SERVER_URL}/orders/`, order, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    return res.data
 }
 
 flow()
@@ -49,5 +65,5 @@ flow()
 
     })
     .catch(err => {
-
+        console.log(err.message)
     })
