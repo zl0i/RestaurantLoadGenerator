@@ -14,8 +14,8 @@ deploy:
   image: lwolf/kubectl_deployer:1.18.3
   before_script:
     - kubectl config set-cluster my-cluster --server="$K3S_URL" --insecure-skip-tls-verify=true
-    - kubectl config set-credentials admin --token="$K3S_TOKEN"
-    - kubectl config set-context default-context --cluster=my-cluster --user=admin
+    - kubectl config set-credentials default --token="$K3S_TOKEN"
+    - kubectl config set-context default-context --cluster=my-cluster --user=default
     - kubectl config use-context default-context
   script:
     - kubectl apply -f ./templates/app.yml

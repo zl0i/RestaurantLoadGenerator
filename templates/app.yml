@@ -1,21 +1,19 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: CronJob
 metadata:
-  name: app-deployment
-  labels:
-    app: app
+  name: generate-order
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: app
-  template:
-    metadata:
-      labels:
-        app: app
+  schedule: "* 1 * * *"
+  concurrencyPolicy: Allow
+  jobTemplate:
     spec:
-      containers:
-        - name: app
-          image: registry.gitlab.com/zl0i/restaurantloadgenerator/app:latest
-      imagePullSecrets:
-        - name: regcred
+      backoffLimit: 2
+      activeDeadlineSeconds: 60
+      template:
+        spec:
+          containers:
+          - name: generate-order
+            image: registry.gitlab.com/zl0i/restaurantloadgenerator/app:latest
+          restartPolicy: Never
+          imagePullSecrets:
+            - name: regcred  

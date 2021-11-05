@@ -62,14 +62,9 @@ async function makeOrder(content: any[], token: string) {
 }
 
 flow()
-    .then(data => {
-
+    .then(_ => {
+        console.log("Order created!")
     })
     .catch(err => {
         console.log(err.message)
     })
-
-
-setTimeout(() => {
-    console.log('It\'s work!')
-}, 1 * 60 * 60 * 1000)
